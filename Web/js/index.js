@@ -1,9 +1,8 @@
-$(document).ready(function () {
+$(document).ready(function() {
     $("#login_form").bootstrapValidator({
         message: "This value is not valid",
         //excluded:[":hidden",":disabled",":not(visible)"] ,//bootstrapValidator的默认配置
         excluded: ":disabled", //关键配置，表示只对于禁用域不进行验证，其他的表单元素都要验证
-
         fields: {
             username: {
                 message: "用户名不能为空", //默认提示信息
@@ -50,20 +49,35 @@ var vue = new Vue({
         password: ""
     },
     methods: {
-        login: function (e) {
+        login: function(e) {
             e.preventDefault();
-            console.log(this.username);
-            this.$http.post("php/test.php", {
-                "username": this.username,
-                "password": this.password
-            },{
-                emulateJSON: true
-            }).then(response => {
-                console.log(response);
-                alert("you guess");
-            }, response => {
-                alert("fuck");
-            });
+            var bootstrapValidator = $("#login_form").data(
+                "bootstrapValidator"
+            );
+            bootstrapValidator.validate();
+            if (bootstrapValidator.isValid()) {
+                var request = new URLSearchParams();
+                request.append("username", this.username);
+                request.append("password", this.password);
+                axios
+                    .post("login_request.php", request)
+                    .then(function(response) {
+                        switch(response.data) {
+                            case "unknown_error":
+                                alert("未知错误请稍后再试");
+                                break;
+                            case "success":
+                                window.location.href = "main.php";
+                                break;
+                            case "failed":
+                                alert("用户名或密码错误");
+                                break;
+                        }
+                    })
+                    .then(function(error) {
+                        console.log(error);
+                    });
+            }
         }
     }
 });
