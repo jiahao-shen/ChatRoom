@@ -50,7 +50,6 @@ var vue = new Vue({
     },
     methods: {
         login: function(e) {
-            e.preventDefault();
             var bootstrapValidator = $("#login_form").data(
                 "bootstrapValidator"
             );
@@ -74,7 +73,7 @@ var vue = new Vue({
                                 break;
                         }
                     })
-                    .then(function(error) {
+                    .catch(function(error) {
                         console.log(error);
                     });
             }

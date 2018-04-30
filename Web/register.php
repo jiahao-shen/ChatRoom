@@ -24,9 +24,9 @@
                 <input type="password" name="password" class="form-control" required="required" placeholder="密码" v-model="password">
             </div>
             <div class="form-group">
-                <input type="password" name="password_confirm" class="form-control" required="required" placeholder="确认密码">
+                <input type="password" name="password_confirm" class="form-control" required="required" placeholder="确认密码" @keydown.enter="register">
             </div>
-            <button type="button" class="btn btn-lg btn-block btn-primary" v-on:click="register">注册</button>
+            <button type="button" class="btn btn-lg btn-block btn-primary" @click="register">注册</button>
 
             <a href="index.php">返回</a>
         </form>

@@ -40,6 +40,7 @@ class Events
     public static function onMessage($client_id, $message) {
         global $con;
         // 客户端传递的是json数据
+        echo $message."\n";
         $request = json_decode($message);
         if (!$request) {
             return;
@@ -50,6 +51,17 @@ class Events
             case "login":
                 $_SESSION["username"] = $request->username;
                 Gateway::bindUid($client_id, $request->username);
+                $users = $con->select("users", "username");
+                $message_private = $con->select("message_private", "*", [
+                    "ORDER" => ["time" => "DESC"],
+                    "LIMIT" => 50
+                ]);
+                $response = array(
+                    "type" => "login",
+                    "users" => $users,
+                    "message_private" => $message_private
+                );
+                Gateway::sendToCurrentClient(json_encode($response));
                 return;
             case "private":
                 $con->insert("message_private", [
@@ -57,7 +69,15 @@ class Events
                     "to_user" => $request->to_user,
                     "content" => $request->content
                 ]);
-                Gateway::sendToUid($request->to_user, $message);
+                $last_id = $con->id();
+                echo $last_id."\n";
+                $time = $con->get("message_private", "time", [
+                    "id" => $last_id
+                ]);
+                $ret = json_decode($message, true);
+                $ret['time'] = $time;
+                // echo $time."\n";
+                Gateway::sendToUid($request->to_user, json_encode($ret));
                 return;
             case "public":
                 $con->insert("message_public", [
