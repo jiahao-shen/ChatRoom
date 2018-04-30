@@ -37,8 +37,7 @@ class Events
     public static function onWorkerStart($businessWorker) {
     }
 
-    public static function onMessage($client_id, $message)
-    {
+    public static function onMessage($client_id, $message) {
         global $con;
         // 客户端传递的是json数据
         $request = json_decode($message);

@@ -12,6 +12,8 @@ if ($con == null) {
         "password" => password_hash($password, PASSWORD_DEFAULT)
     ]);
     if ($result->rowCount()) {
+        session_start();
+        $_SESSION["username"] = $username;
         echo "success";
     } else {
         echo "failed";

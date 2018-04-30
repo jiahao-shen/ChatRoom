@@ -16,14 +16,14 @@
     <div class="container">
         <h1>CugbChat</h1>
 
-        <form role="form" id="login_form">
+        <form id="login_form">
             <div class="form-group">
                 <input type="text" name="username" class="form-control" required="required" placeholder="用户名" v-model="username">
             </div>
             <div class="form-group">
                 <input type="password" name="password" class="form-control" required="required" placeholder="密码" v-model="password">
             </div>
-            <button type="submit" class="btn btn-lg btn-block btn-primary" v-on:click="login">登录</button>
+            <button type="button" class="btn btn-lg btn-block btn-primary" v-on:click="login">登录</button>
 
             <a href="register.php">注册</a>
             

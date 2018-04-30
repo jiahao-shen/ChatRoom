@@ -46,80 +46,83 @@ session_start();
     <script type="text/javascript" src="js/swfobject.js"></script>
     <script type="text/javascript" src="js/web_socket.js"></script>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/jquery-sinaEmotion-2.1.0.min.js"></script>
+    <script tpe="text/javascript" src="js/jquery-sinaEmotion-2.1.0.min.js"></script>
     <script>
-    WEB_SOCKET_SWF_LOCATION = "swf/WebSocketMain.swf";
-    WEB_SOCKET_DEBUG = true;
-    var ws, username, client_list = {};
-
-    window.onload = function connect() {
-       ws = new WebSocket("ws://"+document.domain+":8000");
-       ws.onopen = onopen;
-       ws.onmessage = onmessage; 
-       ws.onclose = function() {
-    	  console.log("连接关闭，定时重连");
-          connect();
-       };
-       ws.onerror = function() {
-     	  console.log("出现错误");
-       };
-    }
-
-    // 连接建立时发送登录信息
-    function onopen()
-    {
-        username = "<?php echo $_SESSION["username"]; ?>";
-        if (username == "") {
-            window.location.href = "/";
-        } 
-        var request = {
-            "type" : "login",
-            "username" : username,
+        window.onload = function() {
+            alert("<?php echo $_SESSION["username"] ?>");
         }
-        ws.send(JSON.stringify(request));
-        console.log("websocket success");
-    }
+    // WEB_SOCKET_SWF_LOCATION = "swf/WebSocketMain.swf";
+    // WEB_SOCKET_DEBUG = true;
+    // var ws, username, client_list = {};
 
-    // 服务端发来消息时
-    function onmessage(e)
-    {
-        console.log(e.data);
-        var data = JSON.parse(e.data);
-        switch(data["type"]){
-            //心跳
-            case 'ping':
-                var request = {
-                    "type" : "pong"
-                }
-                ws.send(JSON.stringify(request));
-                break;
-            // 登录 更新用户列表
-            case 'login':
-                // say(data['client_id'], data['client_name'],  data['client_name']+' 加入了聊天室', data['time']);
-                // if(data['client_list'])
-                // {
-                //     client_list = data['client_list'];
-                // }
-                // else
-                // {
-                //     client_list[data['client_id']] = data['client_name']; 
-                // }
-                // flush_client_list();
-                // console.log(data['client_name']+"登录成功");
-                break;
-            // 发言
-            case 'say':
-                //{"type":"say","from_client_id":xxx,"to_client_id":"all/client_id","content":"xxx","time":"xxx"}
-                // say(data['from_client_id'], data['from_client_name'], data['content'], data['time']);
-                break;
-            // 用户退出 更新用户列表
-            case 'logout':
-                //{"type":"logout","client_id":xxx,"time":"xxx"}
-                // say(data['from_client_id'], data['from_client_name'], data['from_client_name']+' 退出了', data['time']);
-                // delete client_list[data['from_client_id']];
-                // flush_client_list();
-        }
-    }
+    // window.onload = function connect() {
+    //    ws = new WebSocket("ws://"+document.domain+":8000");
+    //    ws.onopen = onopen;
+    //    ws.onmessage = onmessage; 
+    //    ws.onclose = function() {
+    // 	  console.log("连接关闭，定时重连");
+    //       connect();
+    //    };
+    //    ws.onerror = function() {
+    //  	  console.log("出现错误");
+    //    };
+    // }
+
+    // // 连接建立时发送登录信息
+    // function onopen()
+    // {
+    //     username = "<?php echo $_SESSION["username"]; ?>";
+    //     if (username == "") {
+    //         window.location.href = "/";
+    //     } 
+    //     var request = {
+    //         "type" : "login",
+    //         "username" : username,
+    //     }
+    //     ws.send(JSON.stringify(request));
+    //     console.log("websocket success");
+    // }
+
+    // // 服务端发来消息时
+    // function onmessage(e)
+    // {
+    //     console.log(e.data);
+    //     var data = JSON.parse(e.data);
+    //     switch(data["type"]){
+    //         //心跳
+    //         case 'ping':
+    //             var request = {
+    //                 "type" : "pong"
+    //             }
+    //             ws.send(JSON.stringify(request));
+    //             break;
+    //         // 登录 更新用户列表
+    //         case 'login':
+    //             // say(data['client_id'], data['client_name'],  data['client_name']+' 加入了聊天室', data['time']);
+    //             // if(data['client_list'])
+    //             // {
+    //             //     client_list = data['client_list'];
+    //             // }
+    //             // else
+    //             // {
+    //             //     client_list[data['client_id']] = data['client_name']; 
+    //             // }
+    //             // flush_client_list();
+    //             // console.log(data['client_name']+"登录成功");
+    //             break;
+    //         // 发言
+    //         case 'say':
+    //             //{"type":"say","from_client_id":xxx,"to_client_id":"all/client_id","content":"xxx","time":"xxx"}
+    //             // say(data['from_client_id'], data['from_client_name'], data['content'], data['time']);
+    //             break;
+    //         // 用户退出 更新用户列表
+    //         case 'logout':
+    //             //{"type":"logout","client_id":xxx,"time":"xxx"}
+    //             // say(data['from_client_id'], data['from_client_name'], data['from_client_name']+' 退出了', data['time']);
+    //             // delete client_list[data['from_client_id']];
+    //             // flush_client_list();
+    //     }
+    // }
 
     function send_private(from_user, to_user, content) {
         var request = {
