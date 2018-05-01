@@ -38,6 +38,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="js/md5.js"></script>
 <script src="js/index.js"></script>
 
 </html>

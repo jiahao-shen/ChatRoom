@@ -57,7 +57,7 @@ var vue = new Vue({
             if (bootstrapValidator.isValid()) {
                 var request = new URLSearchParams();
                 request.append("username", this.username);
-                request.append("password", this.password);
+                request.append("password", hex_md5(this.password));
                 axios
                     .post("login_request.php", request)
                     .then(function(response) {

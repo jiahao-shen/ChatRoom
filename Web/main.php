@@ -16,7 +16,7 @@ session_start();
                 <el-header>
                     <div style="margin-top: 10px">
                         <img :src="`image/${username}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: left; position: relative"/>
-                        <h3 style="font-weight: 400; color: white; font-size: 1.6em; margin-left: 50px; color: #d0cdcd; line-height: 50px">
+                        <h3 style="font-weight: 400; color: white; font-size: 1.6em; margin-left: 50px; color: #d0cdcd; line-height: 50px; max-width: 200px; text-overflow: ellipsis; overflow: hidden;">
                             {{username}}
                         </h3>
                     </div>
@@ -31,7 +31,7 @@ session_start();
                         :class="{'chat-item': true, 'chat-item-active': chatContact.username === currentChatItem}"
                         @click="changeChatItem(chatContact)">
                         <img :src="`./image/${chatContact.username}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: left; position: relative"/>
-                        <h3 style="font-weight: 400; color: white;  font-size: 13px;">
+                        <h3 style="font-weight: 400; color: white;  font-size: 13px; max-width: 180px; text-overflow: ellipsis; overflow: hidden;">
                         <span style="vertical-align: top; margin-left: 12px;">
                             {{chatContact.username}}
                         </span>
