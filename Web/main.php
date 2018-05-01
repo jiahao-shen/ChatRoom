@@ -46,7 +46,7 @@ session_start();
                         <div class="time" style="font-size: 10px; color: #b7b4b4;">
                             {{this.window.moment(msg.time).calendar()}}
                         </div>
-                        <div v-if="msg.from === username" style="text-align:right">
+                        <div v-if="msg.from === username" style="text-align:right;margin-top:8px; margin-bottom:8px;">
                             <img :src="`image/${msg.from}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: right; position: relative"/>
                             <div class="right-bubble">
                             <div style="padding: 9px 13px;">
@@ -54,7 +54,7 @@ session_start();
                             </div>
                             </div>
                         </div>
-                        <div v-else style="text-align:left">
+                        <div v-else style="text-align:left; margin-top:8px; margin-bottom:8px;">
                             <div class="left-bubble">
                             <div style="padding: 9px 13px;">
                                 <pre style="margin: 0;white-space: pre-wrap; word-wrap: break-work;">{{msg.content}}</pre>

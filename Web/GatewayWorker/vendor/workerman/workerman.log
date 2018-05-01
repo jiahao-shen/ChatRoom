@@ -327,3 +327,13 @@ Stack trace:
 2018-05-01 22:39:43 pid:72517 Workerman[start.php] stopping ...
 2018-05-01 22:39:43 pid:72517 Workerman[start.php] has been stopped
 2018-05-01 22:39:44 pid:96346 Workerman[start.php] start in DEBUG mode
+2018-05-02 03:05:06 pid:4440 Workerman[start.php] start in DAEMON mode
+2018-05-02 03:06:31 pid:7208 Workerman[start.php] stop 
+2018-05-02 03:06:31 pid:7208 Workerman[start.php] is stoping ...
+2018-05-02 03:06:31 pid:4442 Workerman[start.php] stopping ...
+2018-05-02 03:06:31 pid:4442 Workerman[start.php] has been stopped
+2018-05-02 03:06:31 pid:7208 Workerman[start.php] stop success
+2018-05-02 03:06:35 pid:7588 Workerman[start.php] start in DEBUG mode
+2018-05-02 03:23:22 pid:7588 Workerman[start.php] stopping ...
+2018-05-02 03:23:22 pid:7588 Workerman[start.php] has been stopped
+2018-05-02 03:24:00 pid:34172 Workerman[start.php] start in DEBUG mode

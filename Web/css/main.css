@@ -145,7 +145,7 @@ textarea:focus {
     min-height: 25px;
 
     text-align: right;
-    background-color: #b2e281;
+    background-color: #ffffff;
     max-width: 500px;
     min-height: 1em;
     display: inline-block;
@@ -167,7 +167,7 @@ textarea:focus {
     content: " ";
 }
 .left-bubble::after {
-    border-right-color: #b2e281;
+    border-right-color: #ffffff;
     border-left-width: 7px;
     right: 100%;
 }

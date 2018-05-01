@@ -7,8 +7,7 @@
     height: 500px;
 }
 body {
-    background-color: #edeef2;
-    background-image: url('image/background.jpg');
+    background-image: url('/image/background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
 }
