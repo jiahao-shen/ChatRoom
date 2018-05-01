@@ -118,12 +118,16 @@ aside {
 textarea {
     border-top: 1px solid;
     border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
     background: none !important;
 }
 
 textarea:focus {
     border-bottom: none !important;
-    border-color: unset !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-color: #d7dae2  !important;
 }
 
 .send {
