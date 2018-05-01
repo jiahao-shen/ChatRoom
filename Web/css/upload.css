@@ -1,0 +1,28 @@
+.container {
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    text-align: center;
+    height: 500px;
+}
+body {
+    background-color: #edeef2;
+    background-image: url('image/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+img {
+    margin: 20px;
+    height: 200px;
+    width: 200px;
+}
+#next {
+    margin-top: 80px;
+    font-size: 15pt;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    cursor: pointer;
+}

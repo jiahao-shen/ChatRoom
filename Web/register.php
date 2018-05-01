@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="css/register.css">
 </head>
 
@@ -16,6 +17,7 @@
     <div class="container">
         <h1>CugbChat</h1>
 
+        
         <form id="register_form" >
             <div class="form-group">
                 <input type="text" name="username" class="form-control" required="required" placeholder="用户名" v-model="username">
@@ -28,7 +30,7 @@
             </div>
             <button type="button" class="btn btn-lg btn-block btn-primary" @click="register">注册</button>
 
-            <a href="index.php">返回</a>
+            <a href="/">返回</a>
         </form>
 
     </div>
@@ -41,6 +43,4 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="js/register.js"></script>
-
-
 </html>

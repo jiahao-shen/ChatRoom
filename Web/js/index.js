@@ -63,13 +63,16 @@ var vue = new Vue({
                     .then(function(response) {
                         switch(response.data) {
                             case "unknown_error":
-                                alert("未知错误请稍后再试");
+                                vue.$message({
+                                    message: "未知错误请稍后再试",
+                                    type: "warning"
+                                });
                                 break;
                             case "success":
                                 window.location.href = "main.php";
                                 break;
                             case "failed":
-                                alert("用户名或密码错误");
+                                vue.$message.error("用户名或密码错误")
                                 break;
                         }
                     })
@@ -77,6 +80,8 @@ var vue = new Vue({
                         console.log(error);
                     });
             }
-        }
+        },
+      
+        
     }
 });

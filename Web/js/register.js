@@ -96,13 +96,16 @@ var vue = new Vue({
                     .then(function(response) {
                         switch (response.data) {
                             case "unknown_error":
-                                alert("未知错误请稍后再试");
+                                vue.$message({
+                                    message: "未知错误请稍后再试",
+                                    type: "warning"
+                                });
                                 break;
                             case "success":
-                                window.location.href = "main.php";
+                                window.location.href = "upload.php";
                                 break;
                             case "error":
-                                alert("注册失败");
+                                vue.$message.error("注册失败");
                                 break;
                         }
                     })

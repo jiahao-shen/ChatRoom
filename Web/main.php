@@ -6,12 +6,8 @@ session_start();
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>CugbChat</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.1/moment.min.js"></script>
-    <link href="css/chat.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -19,7 +15,7 @@ session_start();
             <el-aside>
                 <el-header>
                     <div style="margin-top: 10px">
-                        <img :src="`./image/${username}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: left; position: relative"/>
+                        <img :src="`image/${username}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: left; position: relative"/>
                         <h3 style="font-weight: 400; color: white; font-size: 1.6em; margin-left: 50px; color: #d0cdcd; line-height: 50px">
                             {{username}}
                         </h3>
@@ -50,7 +46,7 @@ session_start();
                         <div class="time" style="font-size: 10px; color: #b7b4b4;">
                             {{this.window.moment(msg.time).calendar()}}
                         </div>
-                        <img :src="`./image/${msg.from}.png`" style="width: 40px; float: right; position: relative"/>
+                        <img :src="`image/${msg.from}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: right; position: relative"/>
                         <div :class="{bubble: true, 'bubble-my': msg.from === username}">
                             <div style="padding: 9px 13px;">
                                 <pre style="margin: 0;white-space: pre-wrap; word-wrap: break-work;">{{msg.content}}</pre>
@@ -76,59 +72,25 @@ session_start();
 </body>
     <script type="text/javascript" src="js/swfobject.js"></script>
     <script type="text/javascript" src="js/web_socket.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.1/moment.min.js"></script>
     <script>
         var bus = new Vue()
-        var vm = new Vue({
+        var vue = new Vue({
             el: '#app',
             data: {
-                username: '<?php echo $_SESSION["username"]; ?>',
-                currentChatItem: '',
-                input: '',
-                search: '',
-                chatLog: {
-                   'jiaqi': [ 
-                        // {
-                        //     content: 'I want to fuck you',
-                        //     from: 'shenjiahao',
-                        //     to: 'jiaqi',
-                        //     time: new Date()
-                        // },
-                        // {
-                        //     content: 'I want to sleep with you',
-                        //     from: 'shenjiahao',
-                        //     to: 'jiaqi',
-                        //     time: new Date()
-                        // },
-                        // {
-                        //     content: 'I want to ML with you',
-                        //     from: 'shenjiahao',
-                        //     to: 'jiaqi',
-                        //     time: new Date()
-                        // }
-                    ],
-                    'baiyu': [ 
-                        // {
-                        //     content: 'Mao!',
-                        //     from: 'baiyu',
-                        //     to: 'shenjiahao',
-                        //     time: new Date()
-                        // },
-                        // {
-                        //     content: '我是你的大树',
-                        //     from: 'baiyu',
-                        //     to: 'shenjiahao',
-                        //     time: new Date()
-                        // }
-                    ]
-                },
-                hiddenChatList: [
-                    // {username: 'jiaqi'}, 
-                    // {username: 'baiyu'}
-                ],
+                username: '<?php echo $_SESSION["username"]; ?>',       //当前用户
+                currentChatItem: '',    //当前聊天对象
+                input: '',      //输入内容
+                search: '',     //搜索内容
+                chatLog: {},    //聊天数组
+                hiddenChatList: [],         //列表  
                 chatAreaHeight: '700px'
             },
             computed: {
-                chatList () {
+                chatList () {       //用户列表
                     if (this.search) {
                         return this.hiddenChatList.filter(o => o.username.indexOf(this.search) !== -1)
                     } else {
@@ -136,19 +98,8 @@ session_start();
                     }
                 }
             },
-            // watch: {
-            //     search: function(val) {
-            //         if (val === '') {
-            //             Vue.set(this, 'chatList', this.hiddenChatList)
-            //         }
-            //         this.chatList = this.hiddenChatList.filter(o => o.username.indexOf(val) > 0)
-            //     },
-            //     hiddenChatList: function(val) {
-            //         Vue.set(this, 'chatList', val)
-            //     }
-            // },
             methods: {
-                sendPrivate(from = this.username, to = this.currentChatItem, content = this.input) {
+                sendPrivate(from = this.username, to = this.currentChatItem, content = this.input) {        //发送消息
 
                     if (!content || content === '') {
                         this.$message({
@@ -156,16 +107,16 @@ session_start();
                             message: '消息不能为空',
                             type: 'warning'
                         })
-                        return;
+                        return
                     }
 
-                    this.safeAddMessage(this.chatLog, this.currentChatItem, {
+                    this.safeAddMessage(this.chatLog, this.currentChatItem, {       //添加消息
                         from,
                         to,
                         content,
                         time: new Date()
                     })
-                    this.updateChatList(to)
+                    this.updateChatList(to)     //更新列表
 
                     let request = {
                         "type" : "private",
@@ -173,13 +124,13 @@ session_start();
                         "to_user" : to,
                         "content" : content
                     }
-                    window.ws.send(JSON.stringify(request));
+                    window.ws.send(JSON.stringify(request))    //发送  
                     this.input = ''
                 },
                 changeChatItem(ci) {
-                    this.currentChatItem = ci.username
+                    this.currentChatItem = ci.username      //更改聊天对象
                 },
-                safeAddMessage(src, username, message) {
+                safeAddMessage(src, username, message) {        //发送message
                     if (!src[username]) {
                         Vue.set(src, username, [message])
                     } else {
@@ -189,10 +140,10 @@ session_start();
                         return new Date(a.time) - new Date(b.time)
                     })
                 },
-                handleImgLoadFailure(e) {
-                    e.target.src = '/image/default.png'
+                handleImgLoadFailure(e) {       //图片错误处理
+                    e.target.src = 'image/default.png'
                 },
-                updateChatList(username) {
+                updateChatList(username) {      //更新用户列表
                     let pos
                     for (let i = 0; i < this.hiddenChatList.length; i++) {
                         if (this.hiddenChatList[i].username === username) {
@@ -211,9 +162,9 @@ session_start();
                     this.chatAreaHeight = h - 220 + 'px'
                 }
             },
-            updated() {
+            updated() {     //滑动到底部
                 this.$nextTick(function () {
-                    this.handleResize();
+                    this.handleResize()
                     let el = document.querySelector('.chat-area')
                     el.scrollTo(0, el.scrollHeight)
                 })
@@ -224,27 +175,26 @@ session_start();
                 window.addEventListener('resize', this.handleResize)
 
                 var self = this
-                bus.$on('on-msg', function (data) {
+                bus.$on('on-msg', function (data) {     //接收消息
                     self.safeAddMessage(self.chatLog, data.from_user, {
                         from: data.from_user,
                         to: data.to_user,
                         content: data.content,
                         time: new Date(data.time)
                     })
-
                     self.updateChatList(data.to_user)
                 })
                 
-                bus.$on('on-login', function (data) {
+                bus.$on('on-login', function (data) {       //登录
                     self.hiddenChatList.push(...data.users.map(o => ({username: o})))
                     for(let item of data.message_private) {
-                        let username;
-                        if(item.from_user === self.username) {
-                            username = item.to_user
-                        } else {
-                            username = item.form_user
-                        }
-                        self.safeAddMessage(self.chatLog, username, {
+                        self.safeAddMessage(self.chatLog, item.from_user, {
+                            from: item.from_user,
+                            to: item.to_user,
+                            content: item.content,
+                            time: item.time
+                        })
+                        self.safeAddMessage(self.chatLog, item.to_user, {
                             from: item.from_user,
                             to: item.to_user,
                             content: item.content,
@@ -256,100 +206,60 @@ session_start();
             }
         })
 
-        // WEB_SOCKET_SWF_LOCATION = "swf/WebSocketMain.swf";
-        WEB_SOCKET_DEBUG = true;
-        var ws, username, client_list = {};
+        WEB_SOCKET_DEBUG = true
+        var ws, username, client_list = {}
 
         function connect() {
             ws = new WebSocket("ws://"+document.domain+":8000");
-            ws.onopen = onopen;
-            ws.onmessage = onmessage; 
+            ws.onopen = onopen
+            ws.onmessage = onmessage 
             ws.onclose = function() {
-                console.log("连接关闭，定时重连");
-                connect();
-            };
+                console.log("连接关闭，定时重连")
+                connect()
+            }
             ws.onerror = function() {
                 console.log("出现错误");
-            };
+            }
         }
 
         // 连接建立时发送登录信息
-        function onopen()
-        {
-            username = "<?php echo $_SESSION["username"]; ?>";
+        function onopen() {
+            vue.$message({
+                message: "登录成功",
+                type: "success"
+            })
+            username = "<?php echo $_SESSION["username"]; ?>"
             if (username == "") {
                 alert("No login user, redirect!")
-                window.location.href = "/";
+                window.location.href = "/"
             } 
             var request = {
                 "type" : "login",
                 "username" : username,
             }
-            ws.send(JSON.stringify(request));
-            console.log("websocket success");
+            ws.send(JSON.stringify(request))
+            console.log("websocket success")
         }
 
         // 服务端发来消息时
-        function onmessage(e)
-        {
-            var data = JSON.parse(e.data);
+        function onmessage(e) {
+            var data = JSON.parse(e.data)
             switch(data["type"]){
                 //心跳
                 case 'ping':
                     var request = {
                         "type" : "pong"
                     }
-                    ws.send(JSON.stringify(request));
-                    break;
+                    ws.send(JSON.stringify(request))
+                    break
                 case 'login':
                     bus.$emit('on-login', data)
                     break
-                // 登录 更新用户列表
-                // case 'login':
-                    // say(data['client_id'], data['client_name'],  data['client_name']+' 加入了聊天室', data['time']);
-                    // if(data['client_list'])
-                    // {
-                    //     client_list = data['client_list'];
-                    // }
-                    // else
-                    // {
-                    //     client_list[data['client_id']] = data['client_name']; 
-                    // }
-                    // flush_client_list();
-                    // console.log(data['client_name']+"登录成功");
-                    // break;
-                // 发言
-                // case 'say':
-                    //{"type":"say","from_client_id":xxx,"to_client_id":"all/client_id","content":"xxx","time":"xxx"}
-                    // say(data['from_client_id'], data['from_client_name'], data['content'], data['time']);
-                    // break;
-                // 用户退出 更新用户列表
-                // case 'logout':
-                    //{"type":"logout","client_id":xxx,"time":"xxx"}
-                    // say(data['from_client_id'], data['from_client_name'], data['from_client_name']+' 退出了', data['time']);
-                    // delete client_list[data['from_client_id']];
-                    // flush_client_list();
+                case 'private':
+                    bus.$emit('on-msg', data)
+                    break
             }
         }
 
-        // function send_private(from_user, to_user, content) {
-        //     var request = {
-        //         "type" : "private",
-        //         "from_user" : from_user,
-        //         "to_user" : to_user,
-        //         "content" : content
-        //     }
-        //     ws.send(JSON.stringify(request));
-        // }
-
-        // function send_public(from_user, chat_room, content) {
-        //     var request = {
-        //         "type" : "public"
-        //         "from_user" : from_user,
-        //         "chat_room" : chat_room,
-        //         "content" : content
-        //     }
-        //     ws.send(JSON.stringify(request));
-        // }
     </script>
 </html>

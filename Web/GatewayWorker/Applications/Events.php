@@ -51,10 +51,14 @@ class Events
             case "login":
                 $_SESSION["username"] = $request->username;
                 Gateway::bindUid($client_id, $request->username);
-                $users = $con->select("users", "username");
+                $users = $con->select("users", "username", [
+                    "username[!]" => $request->username
+                ]);
                 $message_private = $con->select("message_private", "*", [
-                    "ORDER" => ["time" => "DESC"],
-                    "LIMIT" => 50
+                    "OR" => [
+                        "from_user" => $request->username,
+                        "to_user" => $request->username
+                    ],
                 ]);
                 $response = array(
                     "type" => "login",
@@ -76,7 +80,6 @@ class Events
                 ]);
                 $ret = json_decode($message, true);
                 $ret['time'] = $time;
-                // echo $time."\n";
                 Gateway::sendToUid($request->to_user, json_encode($ret));
                 return;
             case "public":
