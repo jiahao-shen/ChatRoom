@@ -1,5 +1,5 @@
 body {
-    background-image: url('/image/background.jpg');
+    background-image: url("/image/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
@@ -64,11 +64,12 @@ aside {
     right: 0;
 }
 
-.content {
-    text-align: right;
-}
+/* .content { */
+    /* text-align: left; */
+/* } */
 
-.bubble {
+
+.right-bubble {
     margin: 10px !important;
 
     word-wrap: break-word;
@@ -89,26 +90,26 @@ aside {
     -webkit-border-radius: 3px;
     margin: 0 10px;
 }
-.bubble::before,
-.bubble::after {
+.right-bubble::before,
+.right-bubble::after {
     left: 100%;
     position: absolute;
     top: 14px;
     border: 6px solid transparent;
     content: " ";
 }
-.bubble::after {
+.right-bubble::after {
     border-left-color: #b2e281;
     border-left-width: 7px;
     left: 100%;
 }
 
-.bubble-my {
+/* .bubble-my {
     background-color: #81e2e2;
 }
 .bubble-my::after {
     border-left-color: #81e2e2;
-}
+} */
 
 .time {
     text-align: center;
@@ -131,3 +132,39 @@ textarea:focus {
     position: absolute;
     margin: 10px;
 }
+
+.left-bubble {
+    margin: 10px !important;
+
+    word-wrap: break-word;
+    word-break: break-all;
+    min-height: 25px;
+
+    text-align: right;
+    background-color: #b2e281;
+    max-width: 500px;
+    min-height: 1em;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    text-align: left;
+    font-size: 14px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    margin: 0 10px;
+}
+.left-bubble::before,
+.left-bubble::after {
+    right: 100%;
+    position: absolute;
+    top: 14px;
+    border: 6px solid transparent;
+    content: " ";
+}
+.left-bubble::after {
+    border-right-color: #b2e281;
+    border-left-width: 7px;
+    right: 100%;
+}
+

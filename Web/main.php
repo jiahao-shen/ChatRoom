@@ -42,15 +42,25 @@ session_start();
             </el-aside>
             <el-main>
                 <div class="chat-area" :style="{height: chatAreaHeight}">
-                    <div v-for="(msg, key) in chatLog[currentChatItem]" :key="key" class="content">
+                    <div v-for="(msg, key) in chatLog[currentChatItem]" :key="key">
                         <div class="time" style="font-size: 10px; color: #b7b4b4;">
                             {{this.window.moment(msg.time).calendar()}}
                         </div>
-                        <img :src="`image/${msg.from}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: right; position: relative"/>
-                        <div :class="{bubble: true, 'bubble-my': msg.from === username}">
+                        <div v-if="msg.from === username" style="text-align:right">
+                            <img :src="`image/${msg.from}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: right; position: relative"/>
+                            <div class="right-bubble">
                             <div style="padding: 9px 13px;">
                                 <pre style="margin: 0;white-space: pre-wrap; word-wrap: break-work;">{{msg.content}}</pre>
                             </div>
+                            </div>
+                        </div>
+                        <div v-else style="text-align:left">
+                            <div class="left-bubble">
+                            <div style="padding: 9px 13px;">
+                                <pre style="margin: 0;white-space: pre-wrap; word-wrap: break-work;">{{msg.content}}</pre>
+                            </div>
+                            </div>
+                            <img :src="`image/${msg.from}.png`" @error.once="handleImgLoadFailure($event)" style="width: 40px; float: left; position: relative"/>
                         </div>
                     </div>
                 </div>
